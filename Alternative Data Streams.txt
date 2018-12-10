@@ -1,0 +1,41 @@
+Alternative Data Stream (ADS) - Windows
+
+Creating one:
+    1. Open CMD
+    2. write to a file
+        $ echo "This is a test" > test.txt
+    2.1. View the file to assure it's all there!
+    3. Attach an ADS to the file
+        $ echo "drugs" > test.txt:ads.txt
+    3.1. Open the file and you won't find the "drugs" appended to it!
+
+Detecting it:
+    - There are two lines of code that could be used, one with zone.identifier, and one without it. Excluded "zone.identifier" reduces the noise.. But this could be used as a technique to further hide the ADS if it used the name "zone.identifier"
+    - w/ zone.identifer
+        1. Open PowerShell as administrator
+        2. Go to root (C:\) directory to scan the entire system
+        3. Run the following code:
+            # Get-ChildItem -Recurse |Get-Item -Stream * | Where-Object Stream -notin ':$Data'
+    - w/o zone.identifer
+        1. Same as above but use the following code
+            # Get-ChildItem -Recurse |Get-Item -Stream * | Where-Object Stream -notin ':$Data','Zone.Identifier'
+                - Basically, just append "Zone.Idenntifer" to the above line and it'll exclude the search.
+    Breaking down the code:
+        - "Get-ChildItem" = cmdlet that retrieves the items in the child directory.
+        - "-Recurse" = a parameter of "Get-ChildItem" cmdlet that continues to dive into all the child directories until no more. This assures we cover the entire storage drive.
+        - "|" = This represents piping. Piping in a function that allows the output of the previous command to be used as input for the following comamand.
+        - "Get-Item" = Similar to "ls" in linux. As the name implies, it gets the item specified and can output information regarding permissions, length, name, and date/time stamps.
+        - "-Stream" = This specifies that we're looking for alternative data streams.
+        - "*" = wildcard signifying that we're looking for all of the available types of ADS
+        - "Where-Object" = a condition set for a property value based off data piped to it 
+        - "Stream" = the property we selected 
+        - "-notin" = the beginning of a comparison statement meaning we're looking for streams that do not contain the following parameters.
+        - "$DATA" = An MFT attribute type that contains the contents of a file or the location (starting cluster) where the content can be found. Every file has content so without this, we'd basically open every file on the system.
+        - "Zone.Identifer" (optional) = additional clutter
+
+
+    - There are other methods to search the system for ADS but this is the fastest I used (via the Measured-Command cmdlet)
+        - Exmaple:
+            # gci -Recurse | % { gi $_.FullName -Stream * } | where stream -ne ':$Data'
+                - Source: https://blog.malwarebytes.com/101/2015/07/introduction-to-alternate-data-streams/
+                - problem, nearly half the speed as the above line when scaled.

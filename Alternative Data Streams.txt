@@ -15,16 +15,16 @@ Detecting it:
         1. Open PowerShell as administrator
         2. Go to root (C:\) directory to scan the entire system
         3. Run the following code:
-            # Get-ChildItem -Recurse |Get-Item -Stream * | Where-Object Stream -notin ':$Data'
+            # Get-ChildItem -Recurse | Get-Item -Stream * | Where-Object Stream -notin ':$Data'
     - w/o zone.identifer
         1. Same as above but use the following code
-            # Get-ChildItem -Recurse |Get-Item -Stream * | Where-Object Stream -notin ':$Data','Zone.Identifier'
-                - Basically, just append "Zone.Idenntifer" to the above line and it'll exclude the search.
+            # Get-ChildItem -Recurse | Get-Item -Stream * | Where-Object Stream -notin ':$Data','Zone.Identifier'
+                - Basically, just append "Zone.Identifer" to the above line and it'll exclude the search.
     Breaking down the code:
         - "Get-ChildItem" = cmdlet that retrieves the items in the child directory.
         - "-Recurse" = a parameter of "Get-ChildItem" cmdlet that continues to dive into all the child directories until no more. This assures we cover the entire storage drive.
-        - "|" = This represents piping. Piping in a function that allows the output of the previous command to be used as input for the following comamand.
-        - "Get-Item" = Similar to "ls" in linux. As the name implies, it gets the item specified and can output information regarding permissions, length, name, and date/time stamps.
+        - "|" = This represents piping. Piping in a function that allows the output of the previous command to be used as input for the following commmand.
+        - "Get-Item" = Similar to "ls" in Linux. As the name implies, it gets the item specified and can output information regarding permissions, length, name, and date/time stamps.
         - "-Stream" = This specifies that we're looking for alternative data streams.
         - "*" = wildcard signifying that we're looking for all of the available types of ADS
         - "Where-Object" = a condition set for a property value based off data piped to it 
@@ -35,7 +35,7 @@ Detecting it:
 
 
     - There are other methods to search the system for ADS but this is the fastest I used (via the Measured-Command cmdlet)
-        - Exmaple:
+        - Example:
             # gci -Recurse | % { gi $_.FullName -Stream * } | where stream -ne ':$Data'
                 - Source: https://blog.malwarebytes.com/101/2015/07/introduction-to-alternate-data-streams/
                 - problem, nearly half the speed as the above line when scaled.

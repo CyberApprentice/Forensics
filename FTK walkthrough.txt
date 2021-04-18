@@ -1,0 +1,27 @@
+
+
+-case > new case > flintstone
+-case name: flintstone
+-case folder directory : F:\Case Data\
+-double click forensic processing 
+
+- only have selected: expand compound files, flag bad extensions, dtsearch, create thumbnails for graphics, datacarve, and include deleted files > click ok > ok
+
+- After it loads and "Manage Evidence" window pops up : Click add > Acquired IMages > F:\Evidence Files\stone.001
+- Change timezone to "Central Time with daylight saving (US-Chicago)" > click ok
+
+in FTK:
+Evidence > add/remove>Add>individual file(s)> [file] >yes>OK
+
+
+add hash:
+
+Manage > KFF >import > add file > path; F:\Evidence Files\stone.001.hash.csv (fill version & package with ".") > ok > seach for the hash set in NSRL_Alert to make sure it's there
+	Part two > select New (importing a group) > name it > and find and add the fline-stone set > done > evidence > additional analysis > select md5, sha-1, sha-256, kff & add stone group
+	
+Now to view the hashes!
+	Click the icon to manage the "Column settings" > copy selected > rename it to hash analysis > all features > add KFF group & KFF status and sort
+
+
+Use NSRL for negative hash analysis
+	https://www.nist.gov/itl/ssd/software-quality-group/nsrl-download
